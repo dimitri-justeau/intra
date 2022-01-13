@@ -5,10 +5,6 @@
 
 #' Compute all intra-patch connectivity metric.
 #'
-#' Create a new restoration optimization problem using data that describe
-#' the spatial distribution of existing habitat and potential for
-#' restoration.
-#'
 #' @param
 #'
 #' @return A dataframe

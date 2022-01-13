@@ -5,3 +5,7 @@ rcpp_get_patches <- function(raster_path, class_value, neighborhoodExtractCC, ne
     .Call(`_intra_rcpp_get_patches`, raster_path, class_value, neighborhoodExtractCC, neighborhoodExploreCC)
 }
 
+rcpp_landscape_summary <- function(raster_path, class_value, neighborhoodExtractCC, neighborhoodExploreCC) {
+    .Call(`_intra_rcpp_landscape_summary`, raster_path, class_value, neighborhoodExtractCC, neighborhoodExploreCC)
+}
+

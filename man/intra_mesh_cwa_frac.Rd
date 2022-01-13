@@ -4,7 +4,7 @@
 \alias{intra_mesh_cwa_frac}
 \title{Compute MESH_CWA[FRAC]}
 \usage{
-intra_mesh_cwa_frac(intra_metrics)
+intra_mesh_cwa_frac(intra_metrics, landscape_summary)
 }
 \arguments{
 \item{intra_metrics}{dataframe obtained using `extract_intra_metrics`}

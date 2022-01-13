@@ -15,9 +15,7 @@ extract_intra_metrics(
 A dataframe
 }
 \description{
-Create a new restoration optimization problem using data that describe
-the spatial distribution of existing habitat and potential for
-restoration.
+Compute all intra-patch connectivity metric.
 }
 \details{
 TODO.

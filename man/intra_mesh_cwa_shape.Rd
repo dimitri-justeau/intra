@@ -4,7 +4,7 @@
 \alias{intra_mesh_cwa_shape}
 \title{Compute MESH_CWA[SHAPE]}
 \usage{
-intra_mesh_cwa_shape(intra_metrics)
+intra_mesh_cwa_shape(intra_metrics, landscape_summary)
 }
 \arguments{
 \item{intra_metrics}{dataframe obtained using `extract_intra_metrics`}

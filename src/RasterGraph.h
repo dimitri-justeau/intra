@@ -25,6 +25,8 @@ private:
     long* raster_values;
     double transform[6];
     OGRSpatialReference* ogrSpatialReference;
+    double pixel_width;
+    double pixel_height;
 
     // Graph related
     int nb_nodes;
@@ -125,6 +127,11 @@ public:
      * @return The size of input raster.
      */
     int getRasterSize() const;
+
+    /**
+     * @return The area of the landscape (in geographical units).
+     */
+    double getLandscapeArea() const;
 
     /**
      * @return The number of nodes in the raster graph.

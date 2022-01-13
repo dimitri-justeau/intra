@@ -25,9 +25,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_landscape_summary
+DataFrame rcpp_landscape_summary(const char* raster_path, int class_value, int neighborhoodExtractCC, int neighborhoodExploreCC);
+RcppExport SEXP _intra_rcpp_landscape_summary(SEXP raster_pathSEXP, SEXP class_valueSEXP, SEXP neighborhoodExtractCCSEXP, SEXP neighborhoodExploreCCSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type raster_path(raster_pathSEXP);
+    Rcpp::traits::input_parameter< int >::type class_value(class_valueSEXP);
+    Rcpp::traits::input_parameter< int >::type neighborhoodExtractCC(neighborhoodExtractCCSEXP);
+    Rcpp::traits::input_parameter< int >::type neighborhoodExploreCC(neighborhoodExploreCCSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_landscape_summary(raster_path, class_value, neighborhoodExtractCC, neighborhoodExploreCC));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_intra_rcpp_get_patches", (DL_FUNC) &_intra_rcpp_get_patches, 4},
+    {"_intra_rcpp_landscape_summary", (DL_FUNC) &_intra_rcpp_landscape_summary, 4},
     {NULL, NULL, 0}
 };
 

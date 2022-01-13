@@ -17,8 +17,8 @@ RasterGraph::RasterGraph(const char *raster_path, int class_value, Neighborhood 
             dataset = (GDALDataset *) GDALOpen(this->raster_path, GA_ReadOnly );
     dataset->GetGeoTransform(transform);
     ogrSpatialReference = dataset->GetSpatialRef()->Clone();
-    double pixel_width = std::abs(transform[1]);
-    double pixel_height = std::abs(transform[5]);
+    this->pixel_width = std::abs(transform[1]);
+    this->pixel_height = std::abs(transform[5]);
     this->width = dataset->GetRasterBand(1)->GetXSize();
     this->height = dataset->GetRasterBand(1)->GetYSize();
     this->size = width * height;
@@ -91,6 +91,7 @@ RasterGraph::RasterGraph(const char *raster_path, int class_value, Neighborhood 
     // Display raster information
     printf("Raster file: %s\n", raster_path);
     printf("\tDimensions: %d x %d\n", width, height);
+    printf("\tLandscape area: %f\n", getLandscapeArea());
     printf("\tNb nodes: %d\n", nb_nodes);
     printf("\tNb connected components: %d\n", nb_cc);
     printf("\tSize min cc: %d\n", sizeMinCC);
@@ -297,6 +298,10 @@ int RasterGraph::getRasterHeight() const {
 
 int RasterGraph::getRasterSize() const {
     return size;
+}
+
+double RasterGraph::getLandscapeArea() const {
+  return size * pixel_height * pixel_width;
 }
 
 ConnectedComponent *RasterGraph::getConnectedComponent(int cc_index) {
