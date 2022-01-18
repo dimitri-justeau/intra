@@ -4,6 +4,8 @@
 
 #include <gdal/gdal_priv.h>
 #include <gdal/gdal_utils.h>
+#include <gdal/gdal_alg.h>
+#include <gdal/ogrsf_frmts.h>
 
 #include "RasterGraph.h"
 
@@ -270,6 +272,67 @@ void RasterGraph::export_connected_component(int cc, char* dest) {
     // close the dataset
     GDALClose((GDALDatasetH) poDstDS);
     GDALClose((GDALDatasetH) poSrcDS);
+}
+
+void RasterGraph::polygonize(const char *dest) {
+  // Extract raster data
+  GDALDataset *dataset;
+  GDALAllRegister(),
+  dataset = (GDALDataset *) GDALOpen(this->raster_path, GA_ReadOnly);
+  GDALRasterBand  *band = dataset->GetRasterBand(1);
+  GDALRasterBand *src_mask = band->GetMaskBand();
+  // Prepare output shapefile
+  const char *dst_format = "ESRI Shapefile";
+  GDALDriver *dst_driver;
+  dst_driver = GetGDALDriverManager()->GetDriverByName(dst_format);
+  GDALDataset *dst_dataset;
+  dst_dataset = dst_driver->Create(dest, 0, 0, 0, GDT_CInt32, NULL);
+  const char *src_crs = dataset->GetProjectionRef();
+  OGRSpatialReference * dst_crs = new OGRSpatialReference(src_crs);
+  OGRLayer *dst_layer = dst_dataset->CreateLayer("layer", dst_crs, wkbPolygon, NULL);
+  OGRFeature *dst_feature;
+  dst_feature = OGRFeature::CreateFeature(dst_layer->GetLayerDefn());
+  // Feature fields
+  OGRFieldDefn dst_field("class", OFTInteger);
+  dst_layer->CreateField(&dst_field);
+  dst_layer->CreateField(new OGRFieldDefn("AREA", OFTReal));
+  dst_layer->CreateField(new OGRFieldDefn("SHAPE", OFTReal));
+  dst_layer->CreateField(new OGRFieldDefn("FRAC", OFTReal));
+  dst_layer->CreateField(new OGRFieldDefn("MDI", OFTReal));
+  dst_layer->CreateField(new OGRFieldDefn("CWA_SHAPE", OFTReal));
+  dst_layer->CreateField(new OGRFieldDefn("CWA_FRAC", OFTReal));
+  dst_layer->CreateField(new OGRFieldDefn("CWA_MDI", OFTReal));
+  int iPixValField = dst_feature->GetFieldIndex("class");
+  char **papszOptions = NULL;
+  papszOptions = CSLSetNameValue(papszOptions, "CONNECTED", std::to_string(max_degree).c_str());
+  GDALPolygonize(band, src_mask, dst_layer, iPixValField, papszOptions, NULL, NULL);
+  GDALClose(dataset);
+  for(auto& poFeature: dst_layer) {
+    if (poFeature->GetFieldAsInteger("class") != class_value) {
+      dst_layer->DeleteFeature(poFeature->GetFID());
+    }
+  }
+  for (int i = 0; i < getNumberOfConnectedComponents(); i++) {
+    ConnectedComponent *cc = getConnectedComponent(i);
+    int px = cc->getXCoordinate(0);
+    int py = cc->getYCoordinate(0);
+    double x = px * transform[1] + transform[0] + 0.5 * transform[1];
+    double y = py * transform[5] + transform[3] + 0.5 * transform[5];
+    OGRPoint* point = new OGRPoint(x, y);
+    dst_layer->SetSpatialFilter(point);
+    OGRFeature* feature = dst_layer->GetNextFeature();
+    if (feature != NULL) {
+      feature->SetField("AREA", cc->getArea());
+      feature->SetField("SHAPE", cc->getShapeIndex());
+      feature->SetField("FRAC", cc->getFractalDimension());
+      feature->SetField("MDI", cc->meanDetourIndex());
+      feature->SetField("CWA_SHAPE", cc->getArea() / cc->getShapeIndex());
+      feature->SetField("CWA_FRAC", cc->getArea() * cc->getFractalDimension());
+      feature->SetField("CWA_MDI", cc->getArea() * cc->meanDetourIndex());
+      dst_layer->SetFeature(feature);
+    }
+  }
+  GDALClose(dst_dataset);
 }
 
 int RasterGraph::getSizeOfLargestConnectedComponent() const {

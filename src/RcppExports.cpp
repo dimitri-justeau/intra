@@ -11,6 +11,20 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// rcpp_export_shapefile
+void rcpp_export_shapefile(const char* raster_path, const char* dest, int class_value, int neighborhoodExtractCC, int neighborhoodExploreCC);
+RcppExport SEXP _intra_rcpp_export_shapefile(SEXP raster_pathSEXP, SEXP destSEXP, SEXP class_valueSEXP, SEXP neighborhoodExtractCCSEXP, SEXP neighborhoodExploreCCSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type raster_path(raster_pathSEXP);
+    Rcpp::traits::input_parameter< const char* >::type dest(destSEXP);
+    Rcpp::traits::input_parameter< int >::type class_value(class_valueSEXP);
+    Rcpp::traits::input_parameter< int >::type neighborhoodExtractCC(neighborhoodExtractCCSEXP);
+    Rcpp::traits::input_parameter< int >::type neighborhoodExploreCC(neighborhoodExploreCCSEXP);
+    rcpp_export_shapefile(raster_path, dest, class_value, neighborhoodExtractCC, neighborhoodExploreCC);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_get_patches
 DataFrame rcpp_get_patches(const char* raster_path, int class_value, int neighborhoodExtractCC, int neighborhoodExploreCC);
 RcppExport SEXP _intra_rcpp_get_patches(SEXP raster_pathSEXP, SEXP class_valueSEXP, SEXP neighborhoodExtractCCSEXP, SEXP neighborhoodExploreCCSEXP) {
@@ -41,6 +55,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_intra_rcpp_export_shapefile", (DL_FUNC) &_intra_rcpp_export_shapefile, 5},
     {"_intra_rcpp_get_patches", (DL_FUNC) &_intra_rcpp_get_patches, 4},
     {"_intra_rcpp_landscape_summary", (DL_FUNC) &_intra_rcpp_landscape_summary, 4},
     {NULL, NULL, 0}

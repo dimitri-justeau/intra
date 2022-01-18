@@ -114,6 +114,13 @@ public:
     void export_connected_component(int cc, char* dest);
 
     /**
+     * Uses GDAL's polygonize algorithm to export the raster to a shapefile,
+     * with connected component intra metrics as feature attributes.
+     * @param dest The destination file
+     */
+    void polygonize(const char* dest);
+
+    /**
      * @return The width of input raster.
      */
     int getRasterWidth() const;
