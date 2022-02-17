@@ -274,7 +274,7 @@ void RasterGraph::export_connected_component(int cc, char* dest) {
     GDALClose((GDALDatasetH) poSrcDS);
 }
 
-void RasterGraph::polygonize(const char *dest) {
+void RasterGraph::polygonize(const char *dest, bool computeIndices) {
   // Extract raster data
   GDALDataset *dataset;
   GDALAllRegister(),
@@ -296,12 +296,14 @@ void RasterGraph::polygonize(const char *dest) {
   OGRFieldDefn dst_field("class", OFTInteger);
   dst_layer->CreateField(&dst_field);
   dst_layer->CreateField(new OGRFieldDefn("AREA", OFTReal));
-  dst_layer->CreateField(new OGRFieldDefn("SHAPE", OFTReal));
-  dst_layer->CreateField(new OGRFieldDefn("FRAC", OFTReal));
-  dst_layer->CreateField(new OGRFieldDefn("MDI", OFTReal));
-  dst_layer->CreateField(new OGRFieldDefn("CWA_SHAPE", OFTReal));
-  dst_layer->CreateField(new OGRFieldDefn("CWA_FRAC", OFTReal));
-  dst_layer->CreateField(new OGRFieldDefn("CWA_MDI", OFTReal));
+  if (computeIndices) {
+    dst_layer->CreateField(new OGRFieldDefn("SHAPE", OFTReal));
+    dst_layer->CreateField(new OGRFieldDefn("FRAC", OFTReal));
+    dst_layer->CreateField(new OGRFieldDefn("MDI", OFTReal));
+    dst_layer->CreateField(new OGRFieldDefn("CWA_SHAPE", OFTReal));
+    dst_layer->CreateField(new OGRFieldDefn("CWA_FRAC", OFTReal));
+    dst_layer->CreateField(new OGRFieldDefn("CWA_MDI", OFTReal));
+  }
   int iPixValField = dst_feature->GetFieldIndex("class");
   char **papszOptions = NULL;
   papszOptions = CSLSetNameValue(papszOptions, "CONNECTED", std::to_string(max_degree).c_str());
@@ -323,12 +325,14 @@ void RasterGraph::polygonize(const char *dest) {
     OGRFeature* feature = dst_layer->GetNextFeature();
     if (feature != NULL) {
       feature->SetField("AREA", cc->getArea());
-      feature->SetField("SHAPE", cc->getShapeIndex());
-      feature->SetField("FRAC", cc->getFractalDimension());
-      feature->SetField("MDI", cc->meanDetourIndex());
-      feature->SetField("CWA_SHAPE", cc->getArea() / cc->getShapeIndex());
-      feature->SetField("CWA_FRAC", cc->getArea() * cc->getFractalDimension());
-      feature->SetField("CWA_MDI", cc->getArea() * cc->meanDetourIndex());
+      if (computeIndices) {
+        feature->SetField("SHAPE", cc->getShapeIndex());
+        feature->SetField("FRAC", cc->getFractalDimension());
+        feature->SetField("MDI", cc->meanDetourIndex());
+        feature->SetField("CWA_SHAPE", cc->getArea() / cc->getShapeIndex());
+        feature->SetField("CWA_FRAC", cc->getArea() * cc->getFractalDimension());
+        feature->SetField("CWA_MDI", cc->getArea() * cc->meanDetourIndex());
+      }
       dst_layer->SetFeature(feature);
     }
   }

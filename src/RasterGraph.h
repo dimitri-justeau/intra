@@ -117,8 +117,9 @@ public:
      * Uses GDAL's polygonize algorithm to export the raster to a shapefile,
      * with connected component intra metrics as feature attributes.
      * @param dest The destination file
+     * @param computeIndices If true compute intra indices as polygon attributes
      */
-    void polygonize(const char* dest);
+    void polygonize(const char* dest, bool computeIndices);
 
     /**
      * @return The width of input raster.
