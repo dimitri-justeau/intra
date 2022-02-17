@@ -9,7 +9,8 @@ export_shapefile(
   raster_value,
   shapefile_path,
   neighborhoodExtractCC = 4,
-  neighborhoodExploreCC = 4
+  neighborhoodExploreCC = 4,
+  computeIndices = TRUE
 )
 }
 \description{
