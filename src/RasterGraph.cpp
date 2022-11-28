@@ -330,7 +330,7 @@ void RasterGraph::polygonize(const char *dest, bool computeIndices) {
         feature->SetField("FRAC", cc->getFractalDimension());
         feature->SetField("MDI", cc->meanDetourIndex());
         feature->SetField("CWA_SHAPE", cc->getArea() / cc->getShapeIndex());
-        feature->SetField("CWA_FRAC", cc->getArea() * cc->getFractalDimension());
+        feature->SetField("CWA_FRAC", cc->getArea() / cc->getFractalDimension());
         feature->SetField("CWA_MDI", cc->getArea() * cc->meanDetourIndex());
       }
       dst_layer->SetFeature(feature);

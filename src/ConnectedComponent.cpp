@@ -213,7 +213,8 @@ double ConnectedComponent::getShapeIndex() const {
     if ((n * n) < size && size <= n * (n + 1)) {
         return getPerimeter() / (4 * n + 2);
     }
-    return getPerimeter() / (4 * n + 4);
+    double shape = getPerimeter() / (4 * n + 4);
+    return shape < 1 ? 1 : shape;
 }
 
 int ConnectedComponent::getSize() const {
