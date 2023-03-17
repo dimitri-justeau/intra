@@ -1,16 +1,18 @@
-# Copyright (c) 2021, Dimitri Justeau-Allaire
-#
-# Institut Agronomique neo-Caledonien (IAC), 98800 Noumea, New Caledonia
-# AMAP, Univ Montpellier, CIRAD, CNRS, INRA, IRD, Montpellier, France
-
 #' Get landscape summary
 #'
-#' @param
+#' @param raster_path path to a raster file
+#' @param raster_value the raster value of the focal class
+#' @param neighborhoodExtractCC the neighborhood definition to extract the
+#' patches (4 or 8).
+#' @param neighborhoodExploreCC the neighborhood definition to explore the
+#' connectivity within the patches.
 #'
-#' @return A dataframe
-#'
-#' @details
-#' TODO.
+#' @return A data frame containing summary values about a landscape class.
+#' nbcc: number of patches
+#' maxncc: largest patch size
+#' minncc: smallest patch size
+#' nb_nodes: the number of habitat pixels
+#' landscape_area: the total landscape area in geographical units
 #'
 #' @examples
 #' \dontrun{TODO}

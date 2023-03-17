@@ -1,19 +1,9 @@
-# Copyright (c) 2021, Dimitri Justeau-Allaire
-#
-# Institut Agronomique neo-Caledonien (IAC), 98800 Noumea, New Caledonia
-# AMAP, Univ Montpellier, CIRAD, CNRS, INRA, IRD, Montpellier, France
-
 #' Compute MESH
 #'
 #' @param intra_metrics dataframe obtained using `extract_intra_metrics`
+#' @param landscape_summary dataframe obtained using `landscape_summary`
 #'
-#' @return A dataframe
-#'
-#' @details
-#' TODO.
-#'
-#' @examples
-#' \dontrun{TODO}
+#' @return The MESH value of the landscape.
 #'
 #' @export
 intra_mesh <- function(intra_metrics, landscape_summary) {
@@ -25,14 +15,9 @@ intra_mesh <- function(intra_metrics, landscape_summary) {
 #' Compute MESH_CWA[SHAPE]
 #'
 #' @param intra_metrics dataframe obtained using `extract_intra_metrics`
+#' @param landscape_summary dataframe obtained using `landscape_summary`
 #'
-#' @return A dataframe
-#'
-#' @details
-#' TODO.
-#'
-#' @examples
-#' \dontrun{TODO}
+#' @return The MESH_CWA[SHAPE] value of the landscape.
 #'
 #' @export
 intra_mesh_cwa_shape <- function(intra_metrics, landscape_summary) {
@@ -43,14 +28,9 @@ intra_mesh_cwa_shape <- function(intra_metrics, landscape_summary) {
 #' Compute MESH_CWA[FRAC]
 #'
 #' @param intra_metrics dataframe obtained using `extract_intra_metrics`
+#' @param landscape_summary dataframe obtained using `landscape_summary`
 #'
-#' @return A dataframe
-#'
-#' @details
-#' TODO.
-#'
-#' @examples
-#' \dontrun{TODO}
+#' @return The MESH_CWA[FRAC] value of the landscape.
 #'
 #' @export
 intra_mesh_cwa_frac <- function(intra_metrics, landscape_summary) {
@@ -62,14 +42,9 @@ intra_mesh_cwa_frac <- function(intra_metrics, landscape_summary) {
 #' Compute MESH_CWA[MDI]
 #'
 #' @param intra_metrics dataframe obtained using `extract_intra_metrics`
+#' @param landscape_summary dataframe obtained using `landscape_summary`
 #'
-#' @return A dataframe
-#'
-#' @details
-#' TODO.
-#'
-#' @examples
-#' \dontrun{TODO}
+#' @return The MESH_CWA[MDI] value of the landscape.
 #'
 #' @export
 intra_mesh_cwa_mdi <- function(intra_metrics, landscape_summary) {

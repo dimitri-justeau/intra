@@ -1,17 +1,16 @@
-# Copyright (c) 2021, Dimitri Justeau-Allaire
-#
-# Institut Agronomique neo-Caledonien (IAC), 98800 Noumea, New Caledonia
-# AMAP, Univ Montpellier, CIRAD, CNRS, INRA, IRD, Montpellier, France
-
-#' Get landscape summary
+#' Compute all the following patch complexity metric, and export a shapefile
+#' with these metrics as patch attributes:
+#' - shape index (SHAPE)
+#' - fractal dimension (FRAC)
+#' - mean detour index (MDI)
 #'
-#' @param
-#'
-#' @details
-#' TODO.
-#'
-#' @examples
-#' \dontrun{TODO}
+#' @param raster_path path to a raster file
+#' @param raster_value the raster value of the focal class
+#' @param shapefile_path the path of the shapefile to export
+#' @param neighborhoodExtractCC the neighborhood definition to extract the
+#' patches (4 or 8).
+#' @param neighborhoodExploreCC the neighborhood definition to explore the
+#' connectivity within the patches.
 #'
 #' @export
 export_shapefile <- function(raster_path, raster_value, shapefile_path, neighborhoodExtractCC = 4, neighborhoodExploreCC = 4, computeIndices=TRUE) {

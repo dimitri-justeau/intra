@@ -1,19 +1,17 @@
-# Copyright (c) 2021, Dimitri Justeau-Allaire
-#
-# Institut Agronomique neo-Caledonien (IAC), 98800 Noumea, New Caledonia
-# AMAP, Univ Montpellier, CIRAD, CNRS, INRA, IRD, Montpellier, France
-
-#' Compute all intra-patch connectivity metric.
+#' Compute and return as a data frame all the following patch complexity metric:
+#' - shape index (SHAPE)
+#' - fractal dimension (FRAC)
+#' - mean detour index (MDI)
 #'
-#' @param
+#' @param raster_path path to a raster file
+#' @param raster_value the raster value of the focal class
+#' @param neighborhoodExtractCC the neighborhood definition to extract the
+#' patches (4 or 8).
+#' @param neighborhoodExploreCC the neighborhood definition to explore the
+#' connectivity within the patches.
 #'
-#' @return A dataframe
-#'
-#' @details
-#' TODO.
-#'
-#' @examples
-#' \dontrun{TODO}
+#' @return A dataframe containing the intra-patch complexity metrics for all
+#' patches of the landscape.
 #'
 #' @export
 extract_intra_metrics <- function(raster_path, raster_value, neighborhoodExtractCC = 4, neighborhoodExploreCC = 4) {
